@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="min-h-screen transition-colors duration-300">
       <Navbar isDark={isDark} onToggleDark={toggle} />
-      
+
       <main>
         <Hero isDark={isDark} />
         <About />
@@ -29,12 +29,11 @@ function App() {
       </main>
 
       <ChatWidget />
-      
+
       <footer className="py-8 text-center text-slate-500 dark:text-slate-400 text-sm border-t border-slate-200 dark:border-dark-border">
         <p>
           Designed & Built by Divyanshu Ranjan
           <br />
-          <span className="text-xs opacity-70">Inspired by adityathakur.me • Open to Opportunities</span>
         </p>
       </footer>
     </div>
