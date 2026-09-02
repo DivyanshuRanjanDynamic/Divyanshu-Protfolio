@@ -1,0 +1,19 @@
+# Secrets and env files
+.env
+.env.local
+.env.*.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Node
+node_modules/
+dist/
+build/
+.DS_Store

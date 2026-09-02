@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+pydantic
+resend
+python-dotenv
+groq
+scikit-learn

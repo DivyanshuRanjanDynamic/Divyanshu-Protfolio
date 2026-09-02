@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "name": "Divyanshu Ranjan",
+    "roles": ["Full Stack Engineer", "AI Builder", "Backend Engineer", "Software Engineer"],
+    "tagline": "I build scalable backend systems and AI-powered products — currently open to Internship and Full-Time opportunities.",
+    "resumeUrl": "https://1drv.ms/b/c/ec04afbe3c304831/IQCoUeLZmg09QbqKvtR_WMGlAdUy6oQM86RJazeR5amfmmE?e=5ccO2h",
+    "email": "divyanshu.work914214@gmail.com",
+    "phone": "9142140020",
+    "github": "https://github.com/DivyanshuRanjanDynamic",
+    "linkedin": "https://www.linkedin.com/in/divyanshu-ranjan-6b3b37277/"
+  },
+  "education": {
+    "degree": "B.Tech in Computer Science (AI & ML)",
+    "institution": "Techno Main Salt Lake",
+    "gpa": "8.04/10",
+    "period": "May 2023 – Jun 2027"
+  },
+  "skills": {
+    "Languages": ["Java", "Python", "JavaScript", "TypeScript"],
+    "Backend": ["Node.js", "Express.js", "REST APIs", "WebSockets", "WebRTC", "gRPC", "JWT", "OAuth 2.0"],
+    "Databases": ["PostgreSQL", "MongoDB", "Redis", "Prisma ORM"],
+    "Messaging": ["Apache Kafka", "RabbitMQ", "Event-Driven Architecture"],
+    "DevOps": ["Docker", "Kubernetes", "AWS (EC2, S3)", "GitHub Actions", "CI/CD", "Nginx", "Linux"],
+    "Frontend": ["React.js", "Next.js"],
+    "Concepts": ["Distributed Systems", "System Design", "High-Concurrency API Design", "WebAssembly", "OOP"]
+  },
+  "experience": [
+    {
+      "title": "Backend Developer Intern",
+      "company": "Synchubb Innovation Pvt. Ltd.",
+      "location": "Remote",
+      "period": "Oct 2024 – Nov 2025",
+      "tech": ["Node.js", "PostgreSQL", "Docker", "Kubernetes", "WebSockets", "WebRTC", "JWT", "OAuth"],
+      "bullets": [
+        "Built a real-time collaboration platform supporting 1,000+ concurrent users with live co-editing, syncing updates within ~200ms.",
+        "Added Google/GitHub OAuth sign-in, cutting login failures by 30% and closing a key security gap.",
+        "Sped up core APIs by 25% by rewriting slow queries and adding database indexes.",
+        "Containerized services on Kubernetes, achieving zero-downtime deployments across every release."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "MechHub",
+      "subtitle": "Browser-Based CAD Platform",
+      "image": "/MechHubb.png",
+      "live": "https://www.mechhub.in/",
+      "github": "https://github.com/DivyanshuRanjanDynamic/studio",
+      "tech": ["React.js", "WebAssembly", "OpenCascade", "AWS EC2", "AWS S3", "Razorpay"],
+      "bullets": [
+        "Built a browser CAD tool rendering 3D models instantly, letting manufacturers skip desktop CAD software.",
+        "Designed backend with AWS auto-scaling (EC2, S3) for manufacturing-grade file uploads and concurrent design sessions.",
+        "Grew to 500+ customers and 10+ vendors; selected into the IIM Bangalore NSRCEL incubator.",
+        "Built end-to-end payments (checkout through webhooks) with zero failed transactions."
+      ]
+    },
+    {
+      "name": "ClipGenius-AI",
+      "subtitle": "Podcast-to-Clip Pipeline",
+      "image": "/ClipGenius-AI.png",
+      "live": "https://podclipper.vercel.app/",
+      "github": "https://github.com/DivyanshuRanjanDynamic/ClipGenius-AI",
+      "tech": ["Python", "gRPC", "GPU Workers", "AWS"],
+      "bullets": [
+        "Automated podcast editing into short clips using GPU-accelerated AI, cutting editing time 90% (~15s per clip).",
+        "Built a queued, back-pressure-aware pipeline so traffic spikes never dropped a job."
+      ]
+    },
+    {
+      "name": "ProConnect",
+      "subtitle": "Internship Matching Platform",
+      "image": "/Ignite-X.png",
+      "live": "https://ignite-x-alpha.vercel.app/",
+      "github": "https://github.com/DivyanshuRanjanDynamic/Ignite-X",
+      "tech": ["Node.js", "Apache Kafka", "MongoDB", "Redis", "Prisma"],
+      "bullets": [
+        "Built a recommendation engine matching candidates to roles with 92% accuracy in under 200ms, no GPU required.",
+        "Automated data intake from the PM Internship Portal, cutting admin workload by 35%."
+      ]
+    },
+    {
+      "name": "AI Agent",
+      "subtitle": "Intelligent Code Assistant",
+      "image": "/Agentic Ai Vibe Coder.jpg",
+      "live": null,
+      "github": "https://github.com/DivyanshuRanjanDynamic/Agentic_Ai_Vibe_Coder",
+      "tech": ["Python", "Groq API", "Llama 4 Maverick 17B"],
+      "bullets": [
+        "AI-powered code generation using Groq API with Llama 4 Maverick 17B.",
+        "Executes Linux/bash commands directly from the agent.",
+        "Multi-modal thinking workflow: START → THINK → ACTION → OBSERVE → OUTPUT.",
+        "JSON-based structured communication and an extensible tool system."
+      ]
+    },
+    {
+      "name": "SyncHubb",
+      "subtitle": "Collaborative Developer Platform",
+      "image": "/Synchubb.png",
+      "live": "https://www.synchubb.in/",
+      "github": "https://github.com/DivyanshuRanjanDynamic/SynchubbAuth",
+      "tech": ["Node.js", "Express", "MongoDB", "Redis", "Docker", "WebSockets", "Mediasoup", "Socket.io"],
+      "bullets": [
+        "Integrated team management, real-time chat, video conferencing, task management, and an AI-powered VS Code-like coding environment.",
+        "Microservices architecture with dedicated Auth, Matri, Media API, and WebSocket services for independent deployment.",
+        "Real-time communication via WebSockets/Socket.io and Mediasoup SFU for low-latency messaging and scalable multi-user video.",
+        "Secure backend APIs/auth with Node.js, Express, MongoDB, Redis, Docker; role-based access with service-level separation."
+      ]
+    }
+  ],
+  "achievements": [
+    {
+      "title": "IIM Bangalore NSRCEL Incubation",
+      "description": "Selected for MechHub after reaching 500+ customers and 10+ vendors.",
+      "icon": "trophy"
+    },
+    {
+      "title": "Smart India Hackathon 2024",
+      "description": "Placed among the top teams out of 50+ competing colleges.",
+      "icon": "medal"
+    },
+    {
+      "title": "450+ DSA Problems Solved",
+      "description": "Across LeetCode and TakeUForward.org.",
+      "icon": "code"
+    }
+  ]
+}

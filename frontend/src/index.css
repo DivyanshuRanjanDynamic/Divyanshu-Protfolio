@@ -1,0 +1,220 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-accent-50: #ecfeff;
+  --color-accent-100: #cffafe;
+  --color-accent-200: #a5f3fc;
+  --color-accent-300: #67e8f9;
+  --color-accent-400: #22d3ee;
+  --color-accent-500: #0E7490;
+  --color-accent-600: #0891b2;
+  --color-accent-700: #06b6d4;
+  --color-accent-800: #155e75;
+  --color-accent-900: #164e63;
+  --color-hud: #06b6d4;
+  --color-dark-bg: #0A0D0F;
+  --color-dark-surface: #11161A;
+  --color-dark-card: #1A2026;
+  --color-dark-border: #2C3640;
+  --color-light-bg: #F4FBFD;
+  --color-light-surface: #FFFFFF;
+  --color-light-card: #FFFFFF;
+  --color-light-border: #E2E8F0;
+  
+  --font-family-sans: '"Plus Jakarta Sans"', system-ui, sans-serif;
+  --font-family-serif: '"Instrument Serif"', Georgia, serif;
+  --font-family-mono: '"JetBrains Mono"', monospace;
+
+  --animate-swing: swing 3s ease-in-out infinite alternate;
+
+  @keyframes swing {
+    0% { transform: rotate(3deg); }
+    100% { transform: rotate(-3deg); }
+  }
+}
+
+/* ── Base ── */
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  background-color: var(--color-light-bg);
+  color: #1e293b;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+.dark body {
+  background-color: var(--color-dark-bg);
+  color: #e2e8f0;
+}
+
+/* ── Typography Overrides ── */
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-family-serif);
+}
+
+.hud-text {
+  font-family: var(--font-family-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.65rem;
+  color: #94a3b8;
+}
+.dark .hud-text {
+  color: #475569;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #0E7490; border-radius: 3px; }
+
+/* ── Glass card & Component Styles ── */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--color-light-border);
+}
+
+.dark .glass {
+  background: rgba(17, 22, 26, 0.7);
+  border: 1px solid var(--color-dark-border);
+}
+
+.card-hover {
+  transition: all 0.2s ease-out;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: #06b6d4;
+  box-shadow: 0 10px 30px rgba(6, 182, 212, 0.05);
+}
+
+/* ── Button Overrides ── */
+.btn-primary {
+  background-color: var(--color-accent-500);
+  color: white;
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.25rem; /* sharp corners */
+  font-family: var(--font-family-mono);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.dark .btn-primary {
+  background-color: #06b6d4;
+  color: #0A0D0F;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(14, 116, 144, 0.2);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-accent-500);
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-family-mono);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+  border: 1px solid var(--color-light-border);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.dark .btn-secondary {
+  color: #e2e8f0;
+  border-color: var(--color-dark-border);
+}
+.btn-secondary:hover {
+  border-color: #06b6d4;
+  color: #06b6d4;
+  transform: translateY(-2px);
+}
+
+/* ── Tech badge ── */
+.tech-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.125rem;
+  font-family: var(--font-family-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  background: transparent;
+  color: #64748b;
+  border: 1px solid var(--color-light-border);
+  transition: all 0.2s ease;
+}
+.dark .tech-badge {
+  color: #94a3b8;
+  border-color: var(--color-dark-border);
+}
+.tech-badge:hover {
+  border-color: #06b6d4;
+  color: #06b6d4;
+}
+
+/* ── Section Dividers ── */
+.section-heading {
+  font-family: var(--font-family-serif);
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+.section-divider {
+  display: none;
+}
+
+/* Grid background for constellation */
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
+}
+.dark .bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+}
+
+/* ── Chat widget ── */
+.chat-panel {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.25rem;
+  width: 380px;
+  max-height: 520px;
+  border-radius: 0.5rem;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+}
+@media (max-width: 480px) {
+  .chat-panel {
+    width: calc(100vw - 2rem);
+    right: 1rem;
+    max-height: 70vh;
+  }
+}
