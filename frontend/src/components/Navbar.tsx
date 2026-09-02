@@ -61,27 +61,62 @@ export default function Navbar({ isDark, onToggleDark }: NavbarProps) {
 
   return (
     <>
-      {/* Hanging Lamp Theme Toggle */}
-      <div className="fixed top-0 right-4 sm:right-12 z-50 flex flex-col items-center">
-        <div className="w-px h-12 sm:h-20 bg-slate-300 dark:bg-slate-700" style={{ borderLeft: '2px dotted currentColor' }} />
-        <button
+      {/* Hanging Lamp Theme Toggle with String Pendulum Swing & Dynamic Flame Lighting */}
+      <div className="fixed top-0 right-4 sm:right-14 z-50 pointer-events-none">
+        <motion.div
+          animate={{ rotate: [-7, 7, -7] }}
+          transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+          className="flex flex-col items-center origin-top pointer-events-auto cursor-pointer group"
           onClick={handleToggle}
-          className="relative group outline-none"
           aria-label="Toggle dark mode"
+          title={isDark ? "Dark mode active (Lamp shining) - Click to switch to Light mode" : "Light mode active (Lamp off) - Click to switch to Dark mode"}
         >
-          <div className="absolute inset-0 bg-amber-200/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-          <motion.div
-            animate={{ rotate: isDark ? 0 : [0, 5, -5, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-            className="relative cursor-pointer origin-top hover:animate-swing"
-          >
-            {/* Lamp Base */}
-            <div className="w-12 h-10 bg-[#D2B48C] dark:bg-[#4A4031] rounded-t-lg rounded-b-md shadow-md border-b-4 border-slate-900 flex justify-center items-end pb-1">
-              {/* Bulb */}
-              <div className={`w-8 h-4 rounded-b-full transition-colors duration-300 ${isDark ? 'bg-slate-800' : 'bg-yellow-100 shadow-[0_10px_20px_rgba(253,224,71,0.6)]'}`} />
+          {/* Ceiling Mount Cap */}
+          <div className="w-4 h-2 bg-slate-400 dark:bg-slate-600 rounded-b-md shadow-sm shrink-0" />
+
+          {/* Dotted Hanging Cable / String */}
+          <div className="w-0.5 h-16 sm:h-24 border-l-2 border-dotted border-slate-600 dark:border-amber-300/80 transition-colors duration-500" />
+
+          {/* Lamp Assembly */}
+          <div className="relative flex flex-col items-center">
+            {/* Dark Mode Warm Glow Halo */}
+            <div
+              className={`absolute -inset-4 rounded-full transition-all duration-500 ${
+                isDark
+                  ? 'bg-amber-400/30 blur-xl opacity-100 scale-125'
+                  : 'opacity-0 scale-90'
+              }`}
+            />
+
+            {/* Lamp Shade Base */}
+            <div className="relative w-16 h-12 sm:w-20 sm:h-14 bg-gradient-to-b from-[#dfbe95] to-[#b89568] dark:from-[#5a4834] dark:to-[#382b1d] rounded-t-xl rounded-b-md shadow-2xl border-b-4 border-slate-950 flex flex-col justify-end items-center pb-1 transition-all duration-300 group-hover:scale-105">
+              {/* Internal Socket Ring */}
+              <div className="w-10 h-1 bg-slate-900/70 rounded-t-full mb-0.5" />
+
+              {/* Flame / Bulb */}
+              <div
+                className={`w-10 h-5 sm:w-12 sm:h-6 rounded-b-full transition-all duration-500 ${
+                  isDark
+                    ? 'bg-gradient-to-b from-amber-200 via-amber-300 to-yellow-400 shadow-[0_0_22px_#f59e0b,0_8px_32px_#fbbf24]'
+                    : 'bg-slate-800 border-t border-slate-700 shadow-inner'
+                }`}
+              />
             </div>
-          </motion.div>
-        </button>
+
+            {/* Downward Light Cone Beam (Dark Mode Only) */}
+            <div
+              className={`pointer-events-none transition-all duration-500 origin-top ${
+                isDark
+                  ? 'opacity-80 scale-100 h-32 sm:h-44 w-40 sm:w-56'
+                  : 'opacity-0 scale-75 h-0 w-0'
+              }`}
+              style={{
+                clipPath: 'polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%)',
+                background: 'linear-gradient(to bottom, rgba(251, 191, 36, 0.4), rgba(245, 158, 11, 0.1), transparent)',
+              }}
+            />
+          </div>
+        </motion.div>
       </div>
 
       {/* Center Pill Nav (Desktop) */}
