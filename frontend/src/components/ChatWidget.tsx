@@ -226,7 +226,7 @@ export default function ChatWidget() {
           </motion.span>
         </AnimatePresence>
         <span className="hidden sm:inline font-medium">
-          {isOpen ? 'Close' : 'Ask Divyanshu AI'}
+          {isOpen ? 'Close' : 'Divyanshu AI'}
         </span>
         {!isOpen && (
           <span className="relative flex h-2.5 w-2.5">
@@ -250,17 +250,11 @@ export default function ChatWidget() {
             {/* Top Brand Header */}
             <div className="px-5 py-4 bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-white shrink-0 border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded-xl bg-gradient-to-tr from-accent-500 to-indigo-500 text-white shadow-md">
-                  <BsRobot size={18} />
-                </div>
+                <img src="./favicon.png" className="w-10 h-10 rounded-full" />
                 <div>
                   <div className="flex items-center gap-1.5">
                     <span className="font-extrabold text-sm tracking-wide text-white">DIVYANSHU.AI</span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-accent-500/20 text-accent-300 font-semibold border border-accent-500/30">
-                      RAG v2
-                    </span>
                   </div>
-                  <p className="text-[11px] text-slate-400">AI Assistant & Interactive Portfolio</p>
                 </div>
               </div>
 
@@ -301,17 +295,7 @@ export default function ChatWidget() {
                       <p className="text-sm font-medium text-accent-500 dark:text-accent-400">
                         Hi recruiter 👋
                       </p>
-                      {/* Avatar stack */}
-                      <div className="flex -space-x-2 overflow-hidden">
-                        <img
-                          className="inline-block h-7 w-7 rounded-full ring-2 ring-white dark:ring-slate-900 object-cover"
-                          src="https://github.com/DivyanshuRanjanDynamic.png"
-                          alt="Divyanshu"
-                        />
-                        <div className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-tr from-accent-500 to-indigo-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-slate-900">
-                          AI
-                        </div>
-                      </div>
+
                     </div>
                     <h2 className="text-2xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">
                       How can I help?
@@ -338,19 +322,6 @@ export default function ChatWidget() {
                     </div>
                     <div className="p-2.5 rounded-xl bg-accent-500/10 text-accent-500 group-hover:bg-accent-500 group-hover:text-white transition-all shrink-0">
                       <FiArrowRight size={16} />
-                    </div>
-                  </div>
-
-                  {/* Action Card 2: System Status Card */}
-                  <div className="p-3.5 rounded-2xl bg-emerald-500/5 dark:bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-3">
-                    <FiCheckCircle className="text-emerald-500 shrink-0" size={18} />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-emerald-900 dark:text-emerald-300">
-                        Status: All systems operational
-                      </p>
-                      <p className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80 truncate">
-                        FastAPI RAG Pipeline • Groq & Scikit-Learn Online
-                      </p>
                     </div>
                   </div>
 
@@ -391,9 +362,8 @@ export default function ChatWidget() {
                     {messages.map((msg, i) => (
                       <div
                         key={i}
-                        className={`flex flex-col ${
-                          msg.role === 'user' ? 'items-end' : 'items-start'
-                        }`}
+                        className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'
+                          }`}
                       >
                         <div className="flex items-center gap-1.5 mb-1 px-1">
                           <span className="text-[10px] font-semibold text-slate-400">
@@ -408,11 +378,10 @@ export default function ChatWidget() {
 
                         <div className="relative group max-w-[88%]">
                           <div
-                            className={`px-4 py-3 rounded-2xl text-xs sm:text-sm leading-relaxed ${
-                              msg.role === 'user'
-                                ? 'bg-gradient-to-r from-accent-500 to-blue-600 text-white rounded-br-none shadow-md font-medium'
-                                : 'bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100 rounded-bl-none border border-slate-200/90 dark:border-slate-800 shadow-sm'
-                            }`}
+                            className={`px-4 py-3 rounded-2xl text-xs sm:text-sm leading-relaxed ${msg.role === 'user'
+                              ? 'bg-gradient-to-r from-accent-500 to-blue-600 text-white rounded-br-none shadow-md font-medium'
+                              : 'bg-white dark:bg-slate-850 text-slate-800 dark:text-slate-100 rounded-bl-none border border-slate-200/90 dark:border-slate-800 shadow-sm'
+                              }`}
                           >
                             {renderFormattedContent(msg.content)}
                           </div>
@@ -599,11 +568,10 @@ export default function ChatWidget() {
               <div className="flex items-center justify-around pt-2.5 pb-0.5">
                 <button
                   onClick={() => setActiveTab('home')}
-                  className={`flex flex-col items-center gap-1 text-[11px] font-medium transition-colors ${
-                    activeTab === 'home'
-                      ? 'text-accent-500 dark:text-accent-400 font-semibold'
-                      : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
-                  }`}
+                  className={`flex flex-col items-center gap-1 text-[11px] font-medium transition-colors ${activeTab === 'home'
+                    ? 'text-accent-500 dark:text-accent-400 font-semibold'
+                    : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+                    }`}
                 >
                   <FiHome size={16} />
                   <span>Home</span>
@@ -611,11 +579,10 @@ export default function ChatWidget() {
 
                 <button
                   onClick={() => setActiveTab('messages')}
-                  className={`relative flex flex-col items-center gap-1 text-[11px] font-medium transition-colors ${
-                    activeTab === 'messages'
-                      ? 'text-accent-500 dark:text-accent-400 font-semibold'
-                      : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
-                  }`}
+                  className={`relative flex flex-col items-center gap-1 text-[11px] font-medium transition-colors ${activeTab === 'messages'
+                    ? 'text-accent-500 dark:text-accent-400 font-semibold'
+                    : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+                    }`}
                 >
                   <FiMessageSquare size={16} />
                   <span>Messages</span>
@@ -626,11 +593,10 @@ export default function ChatWidget() {
 
                 <button
                   onClick={() => setActiveTab('help')}
-                  className={`flex flex-col items-center gap-1 text-[11px] font-medium transition-colors ${
-                    activeTab === 'help'
-                      ? 'text-accent-500 dark:text-accent-400 font-semibold'
-                      : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
-                  }`}
+                  className={`flex flex-col items-center gap-1 text-[11px] font-medium transition-colors ${activeTab === 'help'
+                    ? 'text-accent-500 dark:text-accent-400 font-semibold'
+                    : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+                    }`}
                 >
                   <FiHelpCircle size={16} />
                   <span>Links & Help</span>
