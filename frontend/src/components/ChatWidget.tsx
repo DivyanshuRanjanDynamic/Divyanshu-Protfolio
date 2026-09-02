@@ -6,7 +6,6 @@ import {
   FiSend,
   FiLoader,
   FiChevronRight,
-  FiCheckCircle,
   FiArrowRight,
   FiFileText,
   FiMail,
