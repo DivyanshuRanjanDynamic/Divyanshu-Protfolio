@@ -130,8 +130,20 @@ export default function Skills() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [computedNodes, setComputedNodes] = useState<SkillNode[]>([]);
   const [computedLinks, setComputedLinks] = useState<SkillLink[]>([]);
+  const [viewMode, setViewMode] = useState<'map' | 'grid'>('map');
+  const [windowWidth, setWindowWidth] = useState<number>(
+    typeof window !== 'undefined' ? window.innerWidth : 1200
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = windowWidth < 768;
 
   // Initialize D3 Force Simulation
   useEffect(() => {
@@ -254,272 +266,372 @@ export default function Skills() {
     return Object.values(profile.skills).reduce((sum, list) => sum + list.length, 0);
   }, []);
 
+  // Dynamic ViewBox based on screen width
+  const svgViewBox = isMobile ? "-480 -520 960 1040" : "-700 -550 1400 1100";
+
   return (
-    <SectionWrapper id="skills" className="relative pb-40">
+    <SectionWrapper id="skills" className="relative pb-24 sm:pb-40">
 
       {/* Header */}
-      <div className="text-center mb-16 relative z-10">
-        <div className="hud-text mb-4 opacity-50">[ BLUEPRINT_MAP ]</div>
-        <h2 className="section-heading text-slate-900 dark:text-slate-100 mb-2">
+      <div className="text-center mb-10 sm:mb-16 relative z-10">
+        <div className="hud-text mb-3 sm:mb-4 opacity-50 text-xs sm:text-sm">[ BLUEPRINT_MAP ]</div>
+        <h2 className="section-heading text-slate-900 dark:text-slate-100 mb-2 text-2xl sm:text-4xl md:text-5xl">
           Technical Constellation Mapping
         </h2>
-        <p className="hud-text lowercase tracking-widest text-slate-500">
+        <p className="hud-text lowercase tracking-widest text-slate-500 text-[10px] sm:text-xs">
           METRIC: {totalSkillCount} NODES · AVG 85% LEVEL · 7 CATEGORIES
         </p>
+
+        {/* View Mode Switcher (Constellation Map vs Grid List) */}
+        <div className="flex justify-center items-center gap-2 mt-6">
+          <button
+            onClick={() => setViewMode('map')}
+            className={`px-3 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all border ${
+              viewMode === 'map'
+                ? 'bg-accent-500 text-white border-accent-500 shadow-md font-bold'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-700 hover:border-accent-500/50'
+            }`}
+          >
+            🌌 Constellation Map
+          </button>
+          <button
+            onClick={() => setViewMode('grid')}
+            className={`px-3 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all border ${
+              viewMode === 'grid'
+                ? 'bg-accent-500 text-white border-accent-500 shadow-md font-bold'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-700 hover:border-accent-500/50'
+            }`}
+          >
+            📋 Grid View
+          </button>
+        </div>
       </div>
 
-      {/* Interactive Constellation Container */}
-      <div
-        ref={containerRef}
-        className="relative w-full h-[850px] sm:h-[1050px] flex items-center justify-center overflow-hidden sm:overflow-visible select-none"
-      >
-        <svg
-          className="w-full h-full overflow-visible"
-          viewBox="-700 -550 1400 1100"
+      {/* CONSTELLATION MAP VIEW */}
+      {viewMode === 'map' ? (
+        <div
+          ref={containerRef}
+          className="relative w-full h-[550px] sm:h-[850px] md:h-[1050px] flex items-center justify-center overflow-hidden sm:overflow-visible select-none"
         >
-          <defs>
-            {/* Glow Filter for Hover State */}
-            <filter id="hex-glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="6" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-          </defs>
+          <svg
+            className="w-full h-full overflow-visible"
+            viewBox={svgViewBox}
+          >
+            <defs>
+              {/* Glow Filter for Hover State */}
+              <filter id="hex-glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
 
-          {/* D3 Connection Links */}
-          <g className="links opacity-30 dark:opacity-50">
-            {computedLinks.map((link, i) => {
-              const sourceNode = typeof link.source === 'object' ? link.source as SkillNode : computedNodes.find(n => n.id === link.source);
-              const targetNode = typeof link.target === 'object' ? link.target as SkillNode : computedNodes.find(n => n.id === link.target);
+            {/* D3 Connection Links */}
+            <g className="links opacity-30 dark:opacity-50">
+              {computedLinks.map((link, i) => {
+                const sourceNode = typeof link.source === 'object' ? link.source as SkillNode : computedNodes.find(n => n.id === link.source);
+                const targetNode = typeof link.target === 'object' ? link.target as SkillNode : computedNodes.find(n => n.id === link.target);
 
-              if (!sourceNode || !targetNode) return null;
+                if (!sourceNode || !targetNode) return null;
 
-              const isDimmed = selectedCategory && sourceNode.category !== selectedCategory && targetNode.category !== selectedCategory;
+                const isDimmed = selectedCategory && sourceNode.category !== selectedCategory && targetNode.category !== selectedCategory;
 
-              return (
-                <line
-                  key={`link-${i}`}
-                  x1={sourceNode.x}
-                  y1={sourceNode.y}
-                  x2={targetNode.x}
-                  y2={targetNode.y}
-                  stroke={sourceNode.color || link.color}
-                  strokeWidth="1.5"
-                  strokeDasharray="4 4"
-                  className={`transition-opacity duration-300 ${isDimmed ? 'opacity-10' : 'opacity-100'}`}
-                />
-              );
-            })}
-          </g>
+                return (
+                  <line
+                    key={`link-${i}`}
+                    x1={sourceNode.x}
+                    y1={sourceNode.y}
+                    x2={targetNode.x}
+                    y2={targetNode.y}
+                    stroke={sourceNode.color || link.color}
+                    strokeWidth="1.5"
+                    strokeDasharray="4 4"
+                    className={`transition-opacity duration-300 ${isDimmed ? 'opacity-10' : 'opacity-100'}`}
+                  />
+                );
+              })}
+            </g>
 
-          {/* D3 Skill Nodes */}
-          <g className="nodes">
-            {computedNodes.map((node) => {
-              if (node.id === 'CENTER') {
+            {/* D3 Skill Nodes */}
+            <g className="nodes">
+              {computedNodes.map((node) => {
+                if (node.id === 'CENTER') {
+                  return (
+                    <g
+                      key="node-center"
+                      transform="translate(0,0)"
+                      className="cursor-pointer group"
+                    >
+                      {/* Center Hexagon */}
+                      <polygon
+                        points={centerHexPoints}
+                        fill="#0E7490"
+                        stroke="#06b6d4"
+                        strokeWidth="3"
+                        className="drop-shadow-lg"
+                      />
+                      <text
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        className="font-serif font-bold text-2xl italic fill-white"
+                      >
+                        DR
+                      </text>
+                    </g>
+                  );
+                }
+
+                const IconComp = ICON_COMPONENTS[node.iconKey] || FiCode;
+                const isHovered = hoveredNode?.id === node.id;
+                const isCategorySelected = selectedCategory === node.category;
+                const isDimmed = (selectedCategory && !isCategorySelected) || (hoveredNode && hoveredNode.category !== node.category && !isHovered);
+
                 return (
                   <g
-                    key="node-center"
-                    transform="translate(0,0)"
-                    className="cursor-pointer group"
+                    key={`node-${node.id}`}
+                    transform={`translate(${node.x || 0}, ${node.y || 0})`}
+                    onClick={() => setHoveredNode(prev => prev?.id === node.id ? null : node)}
+                    onMouseEnter={() => !isMobile && setHoveredNode(node)}
+                    onMouseLeave={() => !isMobile && setHoveredNode(null)}
+                    className={`cursor-pointer transition-all duration-300 ${isDimmed ? 'opacity-25' : 'opacity-100'}`}
                   >
-                    {/* Center Hexagon */}
+                    {/* Outer Glow on Hover */}
+                    {isHovered && (
+                      <polygon
+                        points={hexPoints}
+                        fill="none"
+                        stroke={node.color}
+                        strokeWidth="6"
+                        filter="url(#hex-glow)"
+                        className="opacity-70"
+                      />
+                    )}
+
+                    {/* Hexagon Body */}
                     <polygon
-                      points={centerHexPoints}
-                      fill="#0E7490"
-                      stroke="#06b6d4"
-                      strokeWidth="3"
-                      className="drop-shadow-lg"
+                      points={hexPoints}
+                      className="fill-white dark:fill-[#0A0D0F] transition-colors duration-300"
+                      stroke={node.color}
+                      strokeWidth={isHovered || isCategorySelected ? "3" : "1.75"}
                     />
-                    <text
-                      textAnchor="middle"
-                      dominantBaseline="central"
-                      className="font-serif font-bold text-2xl italic fill-white"
+
+                    {/* Node Content */}
+                    <foreignObject
+                      x={-HEX_RADIUS}
+                      y={-HEX_RADIUS}
+                      width={HEX_RADIUS * 2}
+                      height={HEX_RADIUS * 2}
+                      className="pointer-events-none"
                     >
-                      DR
-                    </text>
+                      <div className="w-full h-full flex flex-col items-center justify-center p-1 text-center select-none">
+                        <IconComp
+                          size={14}
+                          style={{ color: node.color }}
+                          className="mb-0.5"
+                        />
+                        <span
+                          className="text-[8px] font-mono font-bold leading-tight line-clamp-2 px-0.5"
+                          style={{ color: node.color }}
+                        >
+                          {node.shortCode || node.name}
+                        </span>
+                        <span className="text-[6.5px] font-mono opacity-40 hud-text mt-0.5">
+                          LVL
+                        </span>
+                      </div>
+                    </foreignObject>
                   </g>
                 );
-              }
+              })}
+            </g>
 
-              const IconComp = ICON_COMPONENTS[node.iconKey] || FiCode;
-              const isHovered = hoveredNode?.id === node.id;
-              const isCategorySelected = selectedCategory === node.category;
-              const isDimmed = (selectedCategory && !isCategorySelected) || (hoveredNode && hoveredNode.category !== node.category && !isHovered);
+            {/* D3 Category Radial Labels */}
+            {Object.entries(CATEGORIES).map(([catKey, catConfig]) => {
+              const rad = (catConfig.angle * Math.PI) / 180;
+              const dist = isMobile ? 360 : 450;
+              const lx = Math.cos(rad) * dist;
+              const ly = Math.sin(rad) * dist;
+
+              const isSelected = selectedCategory === catKey;
 
               return (
                 <g
-                  key={`node-${node.id}`}
-                  transform={`translate(${node.x || 0}, ${node.y || 0})`}
-                  onMouseEnter={() => setHoveredNode(node)}
-                  onMouseLeave={() => setHoveredNode(null)}
-                  className={`cursor-pointer transition-all duration-300 ${isDimmed ? 'opacity-25' : 'opacity-100'}`}
+                  key={`cat-${catKey}`}
+                  transform={`translate(${lx}, ${ly})`}
+                  className="cursor-pointer group"
+                  onClick={() => setSelectedCategory(prev => prev === catKey ? null : catKey)}
+                  onMouseEnter={() => !isMobile && setSelectedCategory(catKey)}
+                  onMouseLeave={() => !isMobile && setSelectedCategory(null)}
                 >
-                  {/* Outer Glow on Hover */}
-                  {isHovered && (
-                    <polygon
-                      points={hexPoints}
-                      fill="none"
-                      stroke={node.color}
-                      strokeWidth="6"
-                      filter="url(#hex-glow)"
-                      className="opacity-70"
-                    />
-                  )}
-
-                  {/* Hexagon Body */}
-                  <polygon
-                    points={hexPoints}
-                    className="fill-white dark:fill-[#0A0D0F] transition-colors duration-300"
-                    stroke={node.color}
-                    strokeWidth={isHovered || isCategorySelected ? "3" : "1.75"}
+                  <rect
+                    x="-75"
+                    y="-14"
+                    width="150"
+                    height="28"
+                    rx="4"
+                    fill="transparent"
                   />
-
-                  {/* Node Content */}
-                  <foreignObject
-                    x={-HEX_RADIUS}
-                    y={-HEX_RADIUS}
-                    width={HEX_RADIUS * 2}
-                    height={HEX_RADIUS * 2}
-                    className="pointer-events-none"
+                  <text
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    className="font-mono text-xs font-bold tracking-widest uppercase transition-all duration-200"
+                    fill={catConfig.color}
+                    opacity={isSelected ? 1 : 0.65}
+                    style={{
+                      fontSize: isSelected ? '13px' : '11px',
+                      fontWeight: isSelected ? '800' : '600'
+                    }}
                   >
-                    <div className="w-full h-full flex flex-col items-center justify-center p-1 text-center select-none">
-                      <IconComp
-                        size={14}
-                        style={{ color: node.color }}
-                        className="mb-0.5"
-                      />
-                      <span
-                        className="text-[8px] font-mono font-bold leading-tight line-clamp-2 px-0.5"
-                        style={{ color: node.color }}
-                      >
-                        {node.shortCode || node.name}
-                      </span>
-                      <span className="text-[6.5px] font-mono opacity-40 hud-text mt-0.5">
-                        LVL
-                      </span>
-                    </div>
-                  </foreignObject>
+                    {catConfig.label}
+                  </text>
                 </g>
               );
             })}
-          </g>
+          </svg>
 
-          {/* D3 Category Radial Labels */}
-          {Object.entries(CATEGORIES).map(([catKey, catConfig]) => {
-            const rad = (catConfig.angle * Math.PI) / 180;
-            const dist = 450;
-            const lx = Math.cos(rad) * dist;
-            const ly = Math.sin(rad) * dist;
-
-            const isSelected = selectedCategory === catKey;
-
-            return (
-              <g
-                key={`cat-${catKey}`}
-                transform={`translate(${lx}, ${ly})`}
-                className="cursor-pointer group"
-                onClick={() => setSelectedCategory(prev => prev === catKey ? null : catKey)}
-                onMouseEnter={() => setSelectedCategory(catKey)}
-                onMouseLeave={() => setSelectedCategory(null)}
+          {/* Hovered / Tapped Skill Detail Tooltip Card */}
+          <AnimatePresence>
+            {hoveredNode && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                transition={{ duration: 0.15 }}
+                className={`z-50 glass p-4 rounded-xl border shadow-2xl ${
+                  isMobile
+                    ? 'fixed bottom-24 left-4 right-4 w-auto pointer-events-auto'
+                    : 'absolute pointer-events-none w-64'
+                }`}
+                style={{
+                  ...(isMobile
+                    ? { borderColor: hoveredNode.color }
+                    : {
+                        left: `calc(50% + ${(hoveredNode.x || 0) + (hoveredNode.x && hoveredNode.x > 0 ? -280 : 30)}px)`,
+                        top: `calc(50% + ${(hoveredNode.y || 0) - 60}px)`,
+                        borderColor: hoveredNode.color,
+                      }),
+                }}
               >
-                <rect
-                  x="-75"
-                  y="-14"
-                  width="150"
-                  height="28"
-                  rx="4"
-                  fill="transparent"
-                />
-                <text
-                  textAnchor="middle"
-                  dominantBaseline="central"
-                  className="font-mono text-xs font-bold tracking-widest uppercase transition-all duration-200"
-                  fill={catConfig.color}
-                  opacity={isSelected ? 1 : 0.65}
-                  style={{
-                    fontSize: isSelected ? '13px' : '11px',
-                    fontWeight: isSelected ? '800' : '600'
-                  }}
-                >
-                  {catConfig.label}
-                </text>
-              </g>
+                <div className="flex items-center justify-between border-b pb-2 mb-3 border-slate-200 dark:border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full"
+                      style={{ backgroundColor: hoveredNode.color }}
+                    />
+                    <h4 className="font-serif font-bold text-base text-slate-900 dark:text-slate-100">
+                      {hoveredNode.name}
+                    </h4>
+                  </div>
+                  <span className="hud-text text-[9px]" style={{ color: hoveredNode.color }}>
+                    {hoveredNode.category}
+                  </span>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="space-y-2">
+                  <div className="flex justify-between text-xs font-mono text-slate-600 dark:text-slate-400">
+                    <span>PROFICIENCY</span>
+                    <span className="font-bold">{hoveredNode.level}%</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div
+                      className="h-full transition-all duration-500 rounded-full"
+                      style={{
+                        width: `${hoveredNode.level}%`,
+                        backgroundColor: hoveredNode.color
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Extra Info */}
+                <div className="mt-3 pt-2 flex justify-between items-center text-[10px] font-mono text-slate-500 border-t border-slate-200/60 dark:border-slate-800/60">
+                  <span className="flex items-center gap-1">
+                    <FiCheckCircle size={10} style={{ color: hoveredNode.color }} />
+                    EXPERIENCE
+                  </span>
+                  <span className="font-bold text-slate-700 dark:text-slate-300">
+                    {hoveredNode.exp}
+                  </span>
+                </div>
+
+                {isMobile && (
+                  <button
+                    onClick={() => setHoveredNode(null)}
+                    className="mt-3 w-full py-1 text-center text-xs font-mono text-slate-400 hover:text-slate-200 border-t border-slate-800"
+                  >
+                    Tap to Close ✕
+                  </button>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      ) : (
+        /* GRID VIEW FOR MOBILE / RESPONSIVE SCROLLING */
+        <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+          {Object.entries(profile.skills).map(([category, skillNames]) => {
+            const catConfig = CATEGORIES[category] || { color: '#94a3b8', label: category };
+            return (
+              <div
+                key={`grid-cat-${category}`}
+                className="glass p-5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4"
+                style={{ borderTopColor: catConfig.color, borderTopWidth: '3px' }}
+              >
+                <div className="flex items-center justify-between">
+                  <h3
+                    className="font-mono text-sm font-bold uppercase tracking-wider"
+                    style={{ color: catConfig.color }}
+                  >
+                    {catConfig.label}
+                  </h3>
+                  <span className="text-[10px] font-mono opacity-50">
+                    {skillNames.length} SKILLS
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  {skillNames.map(name => {
+                    const meta = SKILL_METADATA[name] || { level: 80, exp: '1+ yr' };
+                    return (
+                      <div key={`grid-item-${name}`} className="space-y-1">
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="font-medium text-slate-800 dark:text-slate-200">
+                            {name}
+                          </span>
+                          <span className="font-mono text-[10px] text-slate-400">
+                            {meta.exp} • {meta.level}%
+                          </span>
+                        </div>
+                        <div className="w-full h-1 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all duration-300"
+                            style={{
+                              width: `${meta.level}%`,
+                              backgroundColor: catConfig.color,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             );
           })}
-        </svg>
-
-        {/* Hovered Skill Detail Floating HUD Tooltip Card */}
-        <AnimatePresence>
-          {hoveredNode && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 10 }}
-              transition={{ duration: 0.15 }}
-              className="absolute z-50 pointer-events-none w-64 glass p-4 rounded-sm border shadow-2xl"
-              style={{
-                left: `calc(50% + ${(hoveredNode.x || 0) + (hoveredNode.x && hoveredNode.x > 0 ? -280 : 30)}px)`,
-                top: `calc(50% + ${(hoveredNode.y || 0) - 60}px)`,
-                borderColor: hoveredNode.color,
-              }}
-            >
-              <div className="flex items-center justify-between border-b pb-2 mb-3 border-slate-200 dark:border-slate-800">
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: hoveredNode.color }}
-                  />
-                  <h4 className="font-serif font-bold text-base text-slate-900 dark:text-slate-100">
-                    {hoveredNode.name}
-                  </h4>
-                </div>
-                <span className="hud-text text-[9px]" style={{ color: hoveredNode.color }}>
-                  {hoveredNode.category}
-                </span>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-mono text-slate-600 dark:text-slate-400">
-                  <span>PROFICIENCY</span>
-                  <span className="font-bold">{hoveredNode.level}%</span>
-                </div>
-                <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full transition-all duration-500 rounded-full"
-                    style={{
-                      width: `${hoveredNode.level}%`,
-                      backgroundColor: hoveredNode.color
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Extra Info */}
-              <div className="mt-3 pt-2 flex justify-between items-center text-[10px] font-mono text-slate-500 border-t border-slate-200/60 dark:border-slate-800/60">
-                <span className="flex items-center gap-1">
-                  <FiCheckCircle size={10} style={{ color: hoveredNode.color }} />
-                  EXPERIENCE
-                </span>
-                <span className="font-bold text-slate-700 dark:text-slate-300">
-                  {hoveredNode.exp}
-                </span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+        </div>
+      )}
 
       {/* Category Legend Filter Bar at Bottom */}
-      <div className="flex flex-wrap justify-center items-center gap-2.5 mt-6 max-w-5xl mx-auto px-4 relative z-10">
+      <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-2.5 mt-8 max-w-5xl mx-auto px-4 relative z-10">
         {Object.entries(CATEGORIES).map(([catKey, catConfig]) => {
           const isSelected = selectedCategory === catKey;
           return (
             <button
               key={`legend-${catKey}`}
               onClick={() => setSelectedCategory(prev => prev === catKey ? null : catKey)}
-              onMouseEnter={() => setSelectedCategory(catKey)}
-              onMouseLeave={() => setSelectedCategory(null)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all text-xs font-mono uppercase tracking-wider"
+              onMouseEnter={() => !isMobile && setSelectedCategory(catKey)}
+              onMouseLeave={() => !isMobile && setSelectedCategory(null)}
+              className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-all text-[10px] sm:text-xs font-mono uppercase tracking-wider"
               style={{
                 borderColor: catConfig.color,
                 backgroundColor: isSelected ? `${catConfig.color}20` : 'transparent',
@@ -528,7 +640,7 @@ export default function Skills() {
               }}
             >
               <span
-                className="w-2 h-2 rounded-full"
+                className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full"
                 style={{ backgroundColor: catConfig.color }}
               />
               {catConfig.label}

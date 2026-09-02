@@ -88,16 +88,18 @@ export default function Hero({ isDark = false }: HeroProps) {
           }}
         />
 
-        {/* Floating tags */}
-        <FloatingTag text="REACT UX SYSTEMS"   top="12%" right="8%" />
-        <FloatingTag text="height: 100vh;"     top="20%" right="16%" />
-        <FloatingTag text="ACCESSIBLE UI FLOW" top="32%" right="38%" />
-        <FloatingTag text="class=&quot;hero&quot;" top="42%" right="12%" />
-        <FloatingTag text="INDEXEDDB CACHING"  top="62%" right="42%" />
-        <FloatingTag text="DEV UTILITY LABS"   top="72%" right="32%" />
-        <FloatingTag text="</html>"            bottom="12%" right="22%" />
-        <FloatingTag text="color: #0E7490;"    top="58%" right="10%" />
-        <FloatingTag text="HACKATHON SHIP MODE" bottom="22%" right="15%" />
+        {/* Floating tags - hidden on mobile for clean readable layout */}
+        <div className="hidden md:block">
+          <FloatingTag text="REACT UX SYSTEMS"   top="12%" right="8%" />
+          <FloatingTag text="height: 100vh;"     top="20%" right="16%" />
+          <FloatingTag text="ACCESSIBLE UI FLOW" top="32%" right="38%" />
+          <FloatingTag text="class=&quot;hero&quot;" top="42%" right="12%" />
+          <FloatingTag text="INDEXEDDB CACHING"  top="62%" right="42%" />
+          <FloatingTag text="DEV UTILITY LABS"   top="72%" right="32%" />
+          <FloatingTag text="</html>"            bottom="12%" right="22%" />
+          <FloatingTag text="color: #0E7490;"    top="58%" right="10%" />
+          <FloatingTag text="HACKATHON SHIP MODE" bottom="22%" right="15%" />
+        </div>
 
         {/* LEFT: Artistic Image — fully fitted, full height */}
         <div className="w-1/2 h-full relative overflow-hidden">
@@ -111,45 +113,45 @@ export default function Hero({ isDark = false }: HeroProps) {
           />
           {/* Gradient fade on right edge for smooth blend */}
           <div 
-            className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l to-transparent transition-colors duration-300"
+            className="absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l to-transparent transition-colors duration-300 pointer-events-none"
             style={{ backgroundImage: `linear-gradient(to left, ${bottomBgColor}, transparent)` }}
           />
         </div>
 
         {/* RIGHT: Text — MODE_02 */}
-        <div className="w-1/2 h-full flex flex-col justify-center items-end text-right pr-10 sm:pr-16 lg:pr-24 relative z-10">
-          <div className="hud-text text-slate-500 dark:text-slate-400 mb-6 flex items-center gap-4">
-            <span className="w-10 h-px bg-slate-300 dark:bg-slate-700" />
+        <div className="w-1/2 h-full flex flex-col justify-center items-end text-right pr-4 sm:pr-10 md:pr-16 lg:pr-24 relative z-10">
+          <div className="hud-text text-slate-500 dark:text-slate-400 mb-3 sm:mb-6 flex items-center gap-2 sm:gap-4 text-[10px] sm:text-xs">
+            <span className="w-6 sm:w-10 h-px bg-slate-300 dark:bg-slate-700" />
             MODE_02
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-[5rem] xl:text-[6rem] font-serif leading-[0.88] text-slate-900 dark:text-slate-100 uppercase tracking-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[5rem] xl:text-[6rem] font-serif leading-[0.9] text-slate-900 dark:text-slate-100 uppercase tracking-tight">
             PRODUCT<br />
             <span className="italic text-slate-500 dark:text-slate-400">EXPERIENCE</span><br />
             BUILDER
           </h1>
 
-          <p className="font-mono text-sm text-slate-600 dark:text-slate-400 mt-8 mb-8 max-w-sm">
+          <p className="font-mono text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-4 sm:mt-8 mb-4 sm:mb-8 max-w-[240px] sm:max-w-sm">
             Useful tools. Polished feel.
           </p>
 
-          <div className="flex flex-wrap justify-end gap-3 max-w-md">
+          <div className="flex flex-wrap justify-end gap-1.5 sm:gap-3 max-w-xs sm:max-w-md">
             {['REACT', 'VITE', 'TAILWIND', 'INDEXEDDB', 'UNITY'].map(t => (
               <span
                 key={t}
-                className="px-3 py-1 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 text-[10px] font-mono tracking-widest uppercase bg-white/50 dark:bg-transparent"
+                className="px-2 sm:px-3 py-0.5 sm:py-1 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 text-[8px] sm:text-[10px] font-mono tracking-widest uppercase bg-white/50 dark:bg-transparent"
               >
                 {t}
               </span>
             ))}
           </div>
-          <div className="flex flex-wrap justify-end gap-3 mt-3">
-            <span className="px-3 py-1 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 text-[10px] font-mono tracking-widest uppercase bg-white/50 dark:bg-transparent">
+          <div className="flex flex-wrap justify-end gap-1.5 sm:gap-3 mt-2 sm:mt-3">
+            <span className="px-2 sm:px-3 py-0.5 sm:py-1 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-400 text-[8px] sm:text-[10px] font-mono tracking-widest uppercase bg-white/50 dark:bg-transparent">
               ARCJET/ANONB
             </span>
           </div>
 
-          <div className="hud-text text-slate-500 dark:text-slate-600 mt-10 text-right text-[10px] space-y-1">
+          <div className="hud-text text-slate-500 dark:text-slate-600 mt-6 sm:mt-10 text-right text-[9px] sm:text-[10px] space-y-1 hidden sm:block">
             <div>Java<span className="text-accent-500/60">.</span> HACKATHON SHIP MODE</div>
             <div className="opacity-60">&lt;/html&gt;</div>
           </div>
@@ -170,14 +172,16 @@ export default function Hero({ isDark = false }: HeroProps) {
             : 'repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(6,182,212,0.08) 18px, rgba(6,182,212,0.08) 19px)',
         }}
       >
-        {/* Floating tags */}
-        <FloatingTag text="REAL TIME AI"         top="12%" left="8%"  color="accent" />
-        <FloatingTag text="FASTAPI WS CORE"      top="24%" left="40%" color="accent" />
-        <FloatingTag text="WHISPER PIPELINE"      top="34%" left="4%"  color="accent" />
-        <FloatingTag text="GEMINI INFERENCE"      top="52%" left="36%" color="accent" />
-        <FloatingTag text="LOW LATENCY PATH"      top="54%" left="6%"  color="accent" />
-        <FloatingTag text="SECURE BACKEND FIRST" top="72%" left="30%" color="accent" />
-        <FloatingTag text="CREWAI ORCHESTRATION" bottom="12%" left="12%" color="accent" />
+        {/* Floating tags - hidden on mobile */}
+        <div className="hidden md:block">
+          <FloatingTag text="REAL TIME AI"         top="12%" left="8%"  color="accent" />
+          <FloatingTag text="FASTAPI WS CORE"      top="24%" left="40%" color="accent" />
+          <FloatingTag text="WHISPER PIPELINE"      top="34%" left="4%"  color="accent" />
+          <FloatingTag text="GEMINI INFERENCE"      top="52%" left="36%" color="accent" />
+          <FloatingTag text="LOW LATENCY PATH"      top="54%" left="6%"  color="accent" />
+          <FloatingTag text="SECURE BACKEND FIRST" top="72%" left="30%" color="accent" />
+          <FloatingTag text="CREWAI ORCHESTRATION" bottom="12%" left="12%" color="accent" />
+        </div>
 
         {/* Code snippets on the right side */}
         <div className="absolute right-6 top-[12%] hud-text text-[10px] text-accent-700/50 dark:text-accent-500/30 space-y-1 hidden lg:block pointer-events-none z-0">
@@ -185,54 +189,43 @@ export default function Hero({ isDark = false }: HeroProps) {
           <div className="ml-4">REACT UX SYSTEMS</div>
           <div className="ml-4">height: "...4K"</div>
         </div>
-        <div className="absolute right-6 top-[40%] hud-text text-[10px] text-accent-700/40 dark:text-accent-500/25 hidden lg:block pointer-events-none z-0">
-          class="hero"
-        </div>
-        <div className="absolute right-6 bottom-[20%] hud-text text-[10px] text-accent-700/40 dark:text-accent-500/25 space-y-1.5 hidden lg:block pointer-events-none z-0">
-          <div>VITE FAST FRONTEND</div>
-          <div className="ml-4">AN LANGUAGE TOOL</div>
-          <div className="mt-4">color: #0E7490;</div>
-          <div className="mt-3">HACKATHON SHIP MODE</div>
-          <div className="mt-2 opacity-50">&lt;/html&gt;</div>
-        </div>
 
         {/* LEFT: Text — MODE_01 */}
-        <div className="w-1/2 h-full flex flex-col justify-center items-start text-left pl-10 sm:pl-16 lg:pl-24 relative z-10">
-          <div className="hud-text text-accent-700 dark:text-accent-400 mb-6 flex items-center gap-4">
+        <div className="w-1/2 h-full flex flex-col justify-center items-start text-left pl-4 sm:pl-10 md:pl-16 lg:pl-24 relative z-10">
+          <div className="hud-text text-accent-700 dark:text-accent-400 mb-3 sm:mb-6 flex items-center gap-2 sm:gap-4 text-[10px] sm:text-xs">
             MODE_01
-            <span className="w-10 h-px bg-accent-500/50" />
+            <span className="w-6 sm:w-10 h-px bg-accent-500/50" />
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-[5rem] xl:text-[6rem] font-serif leading-[0.88] text-slate-900 dark:text-white uppercase tracking-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-[5rem] xl:text-[6rem] font-serif leading-[0.9] text-slate-900 dark:text-white uppercase tracking-tight">
             SOFTWARE <span className="text-accent-600 dark:text-accent-400">&</span><br />
             AI<br />
             ENGINEER
           </h1>
 
-          <p className="font-mono text-sm text-slate-600 dark:text-slate-400 mt-8 mb-8 max-w-sm">
+          <p className="font-mono text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-4 sm:mt-8 mb-4 sm:mb-8 max-w-[240px] sm:max-w-sm">
             Low latency. High reliability.
           </p>
 
-          <div className="flex flex-wrap justify-start gap-3 max-w-md">
+          <div className="flex flex-wrap justify-start gap-1.5 sm:gap-3 max-w-xs sm:max-w-md">
             {['FASTAPI', 'WEBSOCKETS', 'WHISPER', 'SARVAM AI'].map(t => (
               <span
                 key={t}
-                className="px-3 py-1 border border-accent-500/40 dark:border-accent-500/30 text-accent-700 dark:text-accent-400 text-[10px] font-mono tracking-widest uppercase bg-accent-500/10 dark:bg-accent-500/5"
+                className="px-2 sm:px-3 py-0.5 sm:py-1 border border-accent-500/40 dark:border-accent-500/30 text-accent-700 dark:text-accent-400 text-[8px] sm:text-[10px] font-mono tracking-widest uppercase bg-accent-500/10 dark:bg-accent-500/5"
               >
                 {t}
               </span>
             ))}
           </div>
-          <div className="flex flex-wrap justify-start gap-3 mt-3">
+          <div className="flex flex-wrap justify-start gap-1.5 sm:gap-3 mt-2 sm:mt-3">
             {['GEMINI', 'CREWAI'].map(t => (
               <span
                 key={t}
-                className="px-3 py-1 border border-accent-500/40 dark:border-accent-500/30 text-accent-700 dark:text-accent-400 text-[10px] font-mono tracking-widest uppercase bg-accent-500/10 dark:bg-accent-500/5"
+                className="px-2 sm:px-3 py-0.5 sm:py-1 border border-accent-500/40 dark:border-accent-500/30 text-accent-700 dark:text-accent-400 text-[8px] sm:text-[10px] font-mono tracking-widest uppercase bg-accent-500/10 dark:bg-accent-500/5"
               >
                 {t}
               </span>
             ))}
-            <span className="w-5 h-5 bg-accent-500/20 border border-accent-500/40" />
           </div>
         </div>
 
@@ -240,7 +233,7 @@ export default function Hero({ isDark = false }: HeroProps) {
         <div className="w-1/2 h-full relative overflow-hidden">
           {/* Gradient fade on left edge for smooth blend */}
           <div 
-            className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r to-transparent transition-colors duration-300 z-10" 
+            className="absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r to-transparent transition-colors duration-300 z-10 pointer-events-none" 
             style={{ backgroundImage: `linear-gradient(to right, ${topBgColor}, transparent)` }}
           />
           <motion.img
@@ -266,7 +259,7 @@ export default function Hero({ isDark = false }: HeroProps) {
 
         {/* Center dot */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="w-3 h-3 rounded-full bg-accent-500 shadow-[0_0_16px_rgba(6,182,212,0.8)]" />
+          <div className="w-3.5 h-3.5 rounded-full bg-accent-500 shadow-[0_0_16px_rgba(6,182,212,0.8)]" />
         </div>
 
         {/* Arrows */}
@@ -275,25 +268,33 @@ export default function Hero({ isDark = false }: HeroProps) {
       </div>
 
       {/* ============================================ */}
-      {/*  BOTTOM BAR — status row                     */}
+      {/*  BOTTOM BAR — status row & mobile tap buttons */}
       {/* ============================================ */}
-      <div className="absolute bottom-6 left-0 right-0 px-10 flex justify-between items-center z-30 pointer-events-none hud-text text-[10px]">
-        <div className="flex items-center gap-2 text-accent-700 dark:text-accent-500/60">
-          <span className="w-2 h-2 bg-accent-500" />
-          SYSTEMS
+      <div className="absolute bottom-4 sm:bottom-6 left-0 right-0 px-4 sm:px-10 flex justify-between items-center z-30 hud-text text-[9px] sm:text-[10px]">
+        <button
+          onClick={() => setPos(75)}
+          className="pointer-events-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-500/10 text-accent-700 dark:text-accent-400 border border-accent-500/30 hover:bg-accent-500/20 transition-all font-mono"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-accent-500" />
+          MODE_01
+        </button>
+
+        <div className="opacity-60 dark:opacity-30 tracking-[0.15em] sm:tracking-[0.2em] text-slate-700 dark:text-slate-400 text-center select-none text-[8px] sm:text-[10px]">
+          ‹ DRAG OR TAP TO SWITCH ›
         </div>
-        <div className="opacity-60 dark:opacity-30 tracking-[0.2em] text-slate-700 dark:text-slate-400">
-          ‹ MOVE CURSOR TO SWITCH FOCUS ›
-        </div>
-        <div className="flex items-center gap-2 text-slate-600 dark:text-slate-500/60">
-          PRODUCT
-          <span className="w-2 h-2 bg-slate-400 dark:bg-slate-500" />
-        </div>
+
+        <button
+          onClick={() => setPos(25)}
+          className="pointer-events-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all font-mono"
+        >
+          MODE_02
+          <span className="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-500" />
+        </button>
       </div>
 
       {/* Decorative corner squares */}
-      <div className="absolute top-12 left-10 w-4 h-4 border border-accent-500/40 dark:border-accent-500/30 z-30 pointer-events-none" />
-      <div className="absolute top-20 left-10 w-1.5 h-1.5 bg-accent-500/40 z-30 pointer-events-none" />
+      <div className="absolute top-12 left-6 sm:left-10 w-3 sm:w-4 h-3 sm:h-4 border border-accent-500/40 dark:border-accent-500/30 z-30 pointer-events-none" />
+      <div className="absolute top-20 left-6 sm:left-10 w-1 sm:w-1.5 h-1 sm:h-1.5 bg-accent-500/40 z-30 pointer-events-none" />
     </section>
   );
 }
