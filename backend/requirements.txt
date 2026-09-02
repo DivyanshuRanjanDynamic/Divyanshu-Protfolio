@@ -1,8 +1,10 @@
 fastapi
 uvicorn[standard]
 pydantic
+email-validator
 resend
 python-dotenv
 groq
 scikit-learn
 requests
+
