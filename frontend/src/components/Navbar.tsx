@@ -81,11 +81,10 @@ export default function Navbar({ isDark, onToggleDark }: NavbarProps) {
           <div className="relative flex flex-col items-center">
             {/* Dark Mode Warm Glow Halo */}
             <div
-              className={`absolute -inset-4 rounded-full transition-all duration-500 ${
-                isDark
-                  ? 'bg-amber-400/30 blur-xl opacity-100 scale-125'
-                  : 'opacity-0 scale-90'
-              }`}
+              className={`absolute -inset-4 rounded-full transition-all duration-500 ${isDark
+                ? 'bg-amber-400/30 blur-xl opacity-100 scale-125'
+                : 'opacity-0 scale-90'
+                }`}
             />
 
             {/* Lamp Shade Base */}
@@ -95,21 +94,19 @@ export default function Navbar({ isDark, onToggleDark }: NavbarProps) {
 
               {/* Flame / Bulb */}
               <div
-                className={`w-10 h-5 sm:w-12 sm:h-6 rounded-b-full transition-all duration-500 ${
-                  isDark
-                    ? 'bg-gradient-to-b from-amber-200 via-amber-300 to-yellow-400 shadow-[0_0_22px_#f59e0b,0_8px_32px_#fbbf24]'
-                    : 'bg-slate-800 border-t border-slate-700 shadow-inner'
-                }`}
+                className={`w-10 h-5 sm:w-12 sm:h-6 rounded-b-full transition-all duration-500 ${isDark
+                  ? 'bg-gradient-to-b from-amber-200 via-amber-300 to-yellow-400 shadow-[0_0_22px_#f59e0b,0_8px_32px_#fbbf24]'
+                  : 'bg-slate-800 border-t border-slate-700 shadow-inner'
+                  }`}
               />
             </div>
 
             {/* Downward Light Cone Beam (Dark Mode Only) */}
             <div
-              className={`pointer-events-none transition-all duration-500 origin-top ${
-                isDark
-                  ? 'opacity-80 scale-100 h-32 sm:h-44 w-40 sm:w-56'
-                  : 'opacity-0 scale-75 h-0 w-0'
-              }`}
+              className={`pointer-events-none transition-all duration-500 origin-top ${isDark
+                ? 'opacity-80 scale-100 h-32 sm:h-44 w-40 sm:w-56'
+                : 'opacity-0 scale-75 h-0 w-0'
+                }`}
               style={{
                 clipPath: 'polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%)',
                 background: 'linear-gradient(to bottom, rgba(251, 191, 36, 0.4), rgba(245, 158, 11, 0.1), transparent)',
