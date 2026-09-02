@@ -111,7 +111,8 @@ export default function ChatWidget() {
       });
 
       if (!res.ok) {
-        throw new Error('Failed to fetch AI response');
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.detail || `Server status ${res.status}`);
       }
 
       const data = await res.json();
@@ -121,13 +122,13 @@ export default function ChatWidget() {
         ...prev,
         { role: 'assistant', content: data.reply || "Sorry, I couldn't generate a response." },
       ]);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Chat error:', err);
       setMessages(prev => [
         ...prev,
         {
           role: 'assistant',
-          content: "Sorry, I'm having trouble connecting right now. You can email Divyanshu directly at **divyanshu.work914214@gmail.com**!",
+          content: "Sorry, I'm having trouble connecting right now. You can email Divyanshu directly at divyanshu.work914214@gmail.com!",
         },
       ]);
     } finally {

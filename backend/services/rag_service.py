@@ -18,17 +18,37 @@ class RAGService:
     def _init_groq(self):
         api_key = os.getenv("GROQ_API_KEY")
         if api_key:
-            self.client = Groq(api_key=api_key)
+            try:
+                self.client = Groq(api_key=api_key.strip())
+            except Exception as e:
+                print("Error initializing Groq client:", e)
+                self.client = None
         else:
             print("WARNING: GROQ_API_KEY not found in environment.")
 
     def _load_and_chunk_data(self):
-        if not os.path.exists(self.data_path):
-            print(f"Error: Data file {self.data_path} does not exist.")
-            return
+        # Search candidate paths for profile.json on Vercel serverless
+        candidate_paths = [
+            self.data_path,
+            os.path.join(os.path.dirname(__file__), "..", "data", "profile.json"),
+            os.path.join(os.getcwd(), "data", "profile.json"),
+            os.path.join(os.getcwd(), "backend", "data", "profile.json"),
+        ]
 
-        with open(self.data_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        data = None
+        for p in candidate_paths:
+            if p and os.path.exists(p):
+                try:
+                    with open(p, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                        print(f"Successfully loaded profile data from: {p}")
+                        break
+                except Exception as e:
+                    print(f"Error loading from {p}: {e}")
+
+        if not data:
+            print("Error: Could not locate profile.json in any candidate path.")
+            return
 
         chunks = []
 
@@ -106,7 +126,10 @@ class RAGService:
 
     def generate_response(self, query: str, history: List[Dict[str, str]] = None) -> str:
         if not self.client:
-            return "I am currently undergoing maintenance (Groq API Key unavailable). Please contact Divyanshu directly via email at divyanshu.work914214@gmail.com!"
+            self._init_groq()
+
+        if not self.client:
+            return "I am currently undergoing maintenance (Groq API Key unavailable). Please feel free to email Divyanshu directly at divyanshu.work914214@gmail.com!"
 
         context = self.retrieve_context(query)
 
