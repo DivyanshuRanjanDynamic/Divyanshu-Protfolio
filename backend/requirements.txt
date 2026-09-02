@@ -5,3 +5,4 @@ resend
 python-dotenv
 groq
 scikit-learn
+requests

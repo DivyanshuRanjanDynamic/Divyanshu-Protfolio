@@ -29,6 +29,16 @@ app.add_middleware(
 def health_check():
     return {"status": "ok", "rag_chunks_loaded": len(rag_service.chunks)}
 
+@app.get("/api/debug")
+def debug_check():
+    return {
+        "groq_client_initialized": rag_service.client is not None,
+        "rag_chunks_loaded": len(rag_service.chunks),
+        "groq_key_present": bool(os.getenv("GROQ_API_KEY")),
+        "resend_key_present": bool(os.getenv("RESEND_API_KEY")),
+        "contact_email": os.getenv("CONTACT_TO_EMAIL", "NOT SET"),
+    }
+
 @app.post("/api/contact", response_model=ContactResponse)
 def handle_contact(request: ContactRequest):
     success = send_contact_email(request.name, request.email, request.message)
